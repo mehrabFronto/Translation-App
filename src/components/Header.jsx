@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="bg-white border-b border-b-gray-300">
-      <nav className="max-w-screen-2xl mx-auto">
+    <header className="bg-white border-b border-b-gray-300 fixed w-full">
+      <nav className="max-w-screen-lg mx-auto">
         <ul className="flex items-center gap-x-2">
           <li>
             <NavLink

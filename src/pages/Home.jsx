@@ -1,7 +1,7 @@
 import React from "react";
 
 const Home = () => {
-  return <div className="max-w-screen-2xl mx-auto">Home</div>;
+  return <div className="flex items-center justify-center">Home</div>;
 };
 
 export default Home;
