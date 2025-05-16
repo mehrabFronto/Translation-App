@@ -1,7 +1,7 @@
 import React from "react";
 
 const Dashboard = () => {
-  return <main>Dashboard</main>;
+  return <div className="max-w-screen-2xl mx-auto">Dashboard</div>;
 };
 
 export default Dashboard;

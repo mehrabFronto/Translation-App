@@ -1,7 +1,7 @@
 import React from "react";
 
 const Home = () => {
-  return <main className="text-3xl text-red-400">Home</main>;
+  return <div className="max-w-screen-2xl mx-auto">Home</div>;
 };
 
 export default Home;

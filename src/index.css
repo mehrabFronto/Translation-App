@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@layer components {
+  .navLink {
+    @apply block p-6 transition-all;
+  }
+}
