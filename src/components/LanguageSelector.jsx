@@ -29,7 +29,7 @@ const LanguageSelector = () => {
       </button>
 
       {openDropdown && (
-        <div className="absolute right-0 -bottom-20 flex flex-col bg-gray-200 p-1 rounded-md border border-gray-300">
+        <div className="absolute right-2 -bottom-20 flex flex-col bg-gray-200 p-1 rounded-md border border-gray-300">
           {languages.map((language, index) => (
             <button
               key={index}
