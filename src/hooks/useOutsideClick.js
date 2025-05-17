@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const useOutsideClick = (cb) => {
+const useOutsideClick = (cb, event = "click") => {
   const ref = useRef();
 
   useEffect(() => {
@@ -10,10 +10,10 @@ const useOutsideClick = (cb) => {
       }
     };
 
-    document.addEventListener("click", handleOutsideClick);
+    document.addEventListener(event, handleOutsideClick);
 
     return () => {
-      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener(event, handleOutsideClick);
     };
   }, [cb]);
 

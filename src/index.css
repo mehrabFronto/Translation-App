@@ -4,4 +4,16 @@
   .navLink {
     @apply block p-6 transition-all;
   }
+
+  .textField {
+    @apply outline-0 border w-full rounded p-3 transition-all duration-300;
+  }
+
+  .textField--normal {
+    @apply text-blue-500 border-black;
+  }
+
+  .textField--error {
+    @apply placeholder:text-red-500 text-red-500 border-red-500;
+  }
 }

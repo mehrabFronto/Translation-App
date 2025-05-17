@@ -12,8 +12,12 @@ const initialWords = [
 export const WordsProvider = ({ children }) => {
   const [words, setWords] = useLocalStorageState("words", initialWords);
 
+  const handleAddKeyword = (newKeyword) => {
+    setWords((prev) => [...prev, newKeyword]);
+  };
+
   return (
-    <WordsContext.Provider value={{ words, setWords }}>
+    <WordsContext.Provider value={{ words, setWords, handleAddKeyword }}>
       {children}
     </WordsContext.Provider>
   );
