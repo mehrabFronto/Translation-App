@@ -9,28 +9,9 @@ import toast from "react-hot-toast";
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { selectedLanguage, languages } = useLanguage();
-  const { words, handleAddKeyword } = useWords();
-
   return (
     <div>
-      <div className="px-2 max-h-[170px] overflow-auto">
-        {words &&
-          words.map(({ persianLabel, englishLabel }, index) => (
-            <div
-              key={index}
-              className="border-b border-gray-200 last:border-b-0 px-3 py-4 rounded-md flex items-center justify-between"
-            >
-              {languages.map((language, index) => (
-                <p key={index} className="first:font-medium font-lg">
-                  {selectedLanguage.type === language.type
-                    ? englishLabel
-                    : persianLabel}
-                </p>
-              ))}
-            </div>
-          ))}
-      </div>
+      <WordsList />
 
       <button
         onClick={() => setIsModalOpen(true)}
@@ -54,10 +35,7 @@ const Dashboard = () => {
           title="Add Keyword"
           handleCloseModal={() => setIsModalOpen(false)}
         >
-          <AddKeywordFrom
-            handleCloseModal={() => setIsModalOpen(false)}
-            handleAddKeyword={handleAddKeyword}
-          />
+          <AddKeywordFrom handleCloseModal={() => setIsModalOpen(false)} />
         </Modal>
       )}
     </div>
@@ -66,7 +44,56 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-const AddKeywordFrom = ({ handleCloseModal, handleAddKeyword }) => {
+const WordsList = () => {
+  const { words, handleEditKeyword } = useWords();
+  const { selectedLanguage } = useLanguage();
+
+  const fieldName =
+    selectedLanguage.type === "english" ? "englishLabel" : "persianLabel";
+
+  const isEmpty = (value) => value.trim() === "";
+
+  return (
+    <div className="px-2 max-h-[195px] overflow-auto">
+      {words &&
+        words.map(({ persianLabel, englishLabel }, index) => {
+          const value =
+            selectedLanguage.type === "persian" ? persianLabel : englishLabel;
+
+          const hasError = isEmpty(value);
+
+          return (
+            <div
+              key={index}
+              className="border-b border-gray-200 last:border-b-0 px-3 py-4 rounded-md flex items-center justify-between gap-4"
+            >
+              <p className={`font-medium ${hasError ? "text-red-500" : ""}`}>
+                {selectedLanguage.type === "persian"
+                  ? englishLabel
+                  : persianLabel}
+              </p>
+
+              <input
+                type="text"
+                value={value}
+                onChange={(e) =>
+                  handleEditKeyword(index, fieldName, e.target.value)
+                }
+                className={`outline-none rounded-md px-2 py-1 text-center w-1/3 ${
+                  hasError ? "bg-red-100 border border-red-500" : "bg-gray-200"
+                }`}
+                placeholder=". . . . ."
+              />
+            </div>
+          );
+        })}
+    </div>
+  );
+};
+
+const AddKeywordFrom = ({ handleCloseModal }) => {
+  const { handleAddKeyword } = useWords();
+
   const {
     register,
     handleSubmit,

@@ -16,8 +16,18 @@ export const WordsProvider = ({ children }) => {
     setWords((prev) => [...prev, newKeyword]);
   };
 
+  const handleEditKeyword = (index, field, value) => {
+    setWords((prevWords) =>
+      prevWords.map((word, i) =>
+        i === index ? { ...word, [field]: value } : word
+      )
+    );
+  };
+
   return (
-    <WordsContext.Provider value={{ words, setWords, handleAddKeyword }}>
+    <WordsContext.Provider
+      value={{ words, setWords, handleAddKeyword, handleEditKeyword }}
+    >
       {children}
     </WordsContext.Provider>
   );
