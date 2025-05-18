@@ -19,6 +19,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { CSS } from "@dnd-kit/utilities";
 
 const Dashboard = () => {
@@ -63,7 +64,7 @@ const WordsList = () => {
   const { words, handleEditKeyword, setWords } = useWords();
   const { selectedLanguage } = useLanguage();
 
-  const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
+  const sensors = useSensors(useSensor(TouchSensor), useSensor(PointerSensor));
 
   const fieldName =
     selectedLanguage.type === "english" ? "englishLabel" : "persianLabel";
@@ -85,6 +86,7 @@ const WordsList = () => {
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      modifiers={[restrictToVerticalAxis]}
     >
       <SortableContext
         items={words.map((_, i) => i)}
@@ -136,24 +138,28 @@ const WordsList = () => {
 };
 
 const SortableItem = ({ id, children }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
+    transition: transform ? "transform 200ms ease" : null,
     cursor: isDragging ? "grabbing" : "grab",
-    touchAction: "manipulation",
+    touchAction: "none",
+  };
+
+  const isInput = (e) => {
+    return e.target.tagName === "INPUT" || e.target.closest("input") !== null;
+  };
+
+  const filteredListeners = {
+    onPointerDown: (e) => {
+      if (!isInput(e)) listeners.onPointerDown?.(e);
+    },
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div ref={setNodeRef} style={style} {...attributes} {...filteredListeners}>
       {children}
     </div>
   );
