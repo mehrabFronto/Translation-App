@@ -59,7 +59,10 @@ const WordsList = () => {
             return (
               <SortableItem key={index} id={index}>
                 {(ref, listeners, attributes, isDragging) => (
-                  <div className="border-b border-gray-200 last:border-b-0 pr-3 rounded-md flex items-center justify-between gap-4 bg-white shadow-sm overflow-hidden">
+                  <div
+                    className="border-b border-gray-200 last:border-b-0 pr-3 rounded-md flex items-center justify-between gap-4 bg-white shadow-sm overflow-hidden"
+                    style={{ touchAction: "auto" }}
+                  >
                     <span
                       className={`block pl-3 pr-6 py-4 ${
                         isDragging ? "cursor-grabbing" : "cursor-grab"
@@ -67,6 +70,7 @@ const WordsList = () => {
                       ref={ref}
                       {...listeners}
                       {...attributes}
+                      style={{ touchAction: "none" }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -122,12 +126,11 @@ const SortableItem = ({ id, children }) => {
     setActivatorNodeRef,
     transform,
     isDragging,
-  } = useSortable({ id });
+  } = useSortable({ id, handle: true });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition: transform ? "transform 200ms ease" : undefined,
-    touchAction: "none",
   };
 
   return (
